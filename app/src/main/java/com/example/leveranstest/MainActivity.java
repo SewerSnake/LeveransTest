@@ -1,7 +1,12 @@
 package com.example.leveranstest;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
     private DBHelper dbHelper;
 
     private String[] showOrders;
+
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
+
+    private static String phoneNumber = "0739058562";
+
+    private static String phoneNumber2 = "+46739058562";
 
     private static Random random = new Random();
 
@@ -139,5 +150,39 @@ public class MainActivity extends AppCompatActivity {
             gps.showSettingsAlert();
         }
         //gps.stopUsingGPS();
+    }
+
+    public void sendSMSMessage(View view) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.SEND_SMS)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[] {
+                        Manifest.permission.SEND_SMS
+                        },
+                        MY_PERMISSIONS_REQUEST_SEND_SMS);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_SEND_SMS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    SmsManager smsManager = SmsManager.getDefault();
+                    String message = "Ordern har levererats!";
+                    smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+                    Toast.makeText(getApplicationContext(), "SMS skickat",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "SMS misslyckades...", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 }

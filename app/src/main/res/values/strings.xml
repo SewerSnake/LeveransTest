@@ -2,4 +2,6 @@
     <string name="app_name">LeveransTest</string>
 
     <string name="gps">GPS</string>
+
+    <string name="sms">Skicka sms</string>
 </resources>
