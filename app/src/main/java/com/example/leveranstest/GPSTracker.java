@@ -18,16 +18,18 @@ public class GPSTracker extends Service implements LocationListener {
     private final Context mContext;
 
     // flag for GPS status
-    boolean isGPSEnabled = false;
+    private boolean isGPSEnabled = false;
 
     // flag for network status
-    boolean isNetworkEnabled = false;
+    private boolean isNetworkEnabled = false;
 
-    boolean canGetLocation = false;
+    private boolean canGetLocation = false;
 
-    Location location; // location
-    double latitude; // latitude
-    double longitude; // longitude
+    private Location location;
+
+    private double latitude;
+
+    private double longitude;
 
     // The minimum distance to change updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
