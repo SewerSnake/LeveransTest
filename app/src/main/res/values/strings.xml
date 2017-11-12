@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LeveransTest</string>
+
+    <string name="main_menu">Main menu</string>
+
+    <string name="gps">GPS</string>
+</resources>
