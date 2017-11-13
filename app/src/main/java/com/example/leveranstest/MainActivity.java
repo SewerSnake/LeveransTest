@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,7 +59,22 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
 
-        dbHelper.addHighScore("Martin", 999);
+        dbHelper.addHighScore("Kalle", 10);
+
+        //dbHelper.getAllHighScores();
+
+        List<HighScore> list = dbHelper.getAllWithName("Kalle");
+
+        HighScore highScore = list.get(0);
+
+        highScore.points = 777;
+
+        dbHelper.updateHighScore(highScore);
+
+        dbHelper.deleteHighScore(highScore);
+
+        //For Log.d printing
+        dbHelper.getAllWithName("Kalle");
 
         listView = (ListView) findViewById(R.id.list);
 
