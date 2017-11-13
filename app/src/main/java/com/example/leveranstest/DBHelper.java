@@ -2,6 +2,7 @@ package com.example.leveranstest;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -46,7 +47,28 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<HighScore> getAllHighScores() {
         List<HighScore> highScoreList = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        //TODO: get all entries from database and put in highScoreList
+
+        Cursor c = db.query("Highscores", null, null,
+                null, null, null, null);
+
+        boolean success = c.moveToFirst();
+
+        if (!success) {
+            return highScoreList; //Returnerar en tom lista om det inte lyckas. Bättre än att returnera null!
+        }
+
+        //Loop for every row in the table
+        do {
+
+            HighScore highScore = new HighScore();
+
+            highScore.id = c.getLong(0);
+            highScore.name = c.getString(1);
+            highScore.points = c.getInt(2);
+
+            highScoreList.add(highScore);
+
+        } while (c.moveToNext());
 
         db.close();
         return highScoreList;
